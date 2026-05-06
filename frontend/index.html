@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Smart Parking Management System</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="logo-icon">🅿️</span>
+      <h2>SmartPark</h2>
+    </div>
+    <nav class="nav-menu">
+      <a href="#" class="nav-link active" data-page="dashboard"><span>📊</span> Dashboard</a>
+      <a href="#" class="nav-link" data-page="users"><span>👥</span> Users</a>
+      <a href="#" class="nav-link" data-page="vehicles"><span>🚗</span> Vehicles</a>
+      <a href="#" class="nav-link" data-page="slots"><span>🅿️</span> Parking Slots</a>
+      <a href="#" class="nav-link" data-page="tickets"><span>🎫</span> Tickets</a>
+      <a href="#" class="nav-link" data-page="transactions"><span>💳</span> Transactions</a>
+      <a href="#" class="nav-link" data-page="staff"><span>👔</span> Staff</a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Navbar -->
+    <header class="navbar">
+      <button class="menu-toggle" id="menuToggle">☰</button>
+      <h1 id="pageTitle">Dashboard</h1>
+      <div class="navbar-right">
+        <span class="search-wrap">
+          <input type="text" placeholder="Search..." />
+        </span>
+        <div class="profile">
+          <div class="avatar">A</div>
+          <span class="profile-name">Admin</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- Dashboard -->
+      <section class="page active" id="page-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card stat-blue">
+            <div class="stat-icon">🅿️</div>
+            <div><p class="stat-label">Total Slots</p><h3 id="stat-total">0</h3></div>
+          </div>
+          <div class="stat-card stat-green">
+            <div class="stat-icon">✅</div>
+            <div><p class="stat-label">Available</p><h3 id="stat-available">0</h3></div>
+          </div>
+          <div class="stat-card stat-red">
+            <div class="stat-icon">🚫</div>
+            <div><p class="stat-label">Occupied</p><h3 id="stat-occupied">0</h3></div>
+          </div>
+          <div class="stat-card stat-blue">
+            <div class="stat-icon">🚗</div>
+            <div><p class="stat-label">Total Vehicles</p><h3 id="stat-vehicles">0</h3></div>
+          </div>
+          <div class="stat-card stat-green">
+            <div class="stat-icon">💰</div>
+            <div><p class="stat-label">Revenue</p><h3 id="stat-revenue">₹0</h3></div>
+          </div>
+        </div>
+
+        <div class="dashboard-row">
+          <div class="card">
+            <h3 class="card-title">Slot Occupancy</h3>
+            <div class="progress-wrap">
+              <div class="progress-bar"><div id="occupancyBar" class="progress-fill"></div></div>
+              <p id="occupancyText" class="muted">0% occupied</p>
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Recent Vehicles</h3>
+            <ul id="recentVehicles" class="recent-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Users -->
+      <section class="page" id="page-users">
+        <div class="page-header">
+          <h2>User Management</h2>
+          <button class="btn btn-primary" onclick="openUserModal()">+ Add User</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>S.No</th><th>Name</th><th>Contact Info</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="usersTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Vehicles -->
+      <section class="page" id="page-vehicles">
+        <div class="page-header">
+          <h2>Vehicle Management</h2>
+          <button class="btn btn-primary" onclick="openVehicleModal()">+ Add Vehicle Entry</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Vehicle Number</th><th>Model</th><th>Type</th><th>Arrival Time</th><th>Exit Time</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="vehiclesTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slots -->
+      <section class="page" id="page-slots">
+        <div class="page-header">
+          <h2>Parking Slots</h2>
+          <div class="legend">
+            <span class="legend-item"><span class="dot dot-green"></span> Free</span>
+            <span class="legend-item"><span class="dot dot-red"></span> Occupied</span>
+          </div>
+        </div>
+        <div id="slotsGrid" class="slots-grid"></div>
+      </section>
+
+      <!-- Tickets -->
+      <section class="page" id="page-tickets">
+        <div class="page-header">
+          <h2>Tickets</h2>
+        </div>
+        <div id="ticketsGrid" class="tickets-grid"></div>
+      </section>
+
+      <!-- Transactions -->
+      <section class="page" id="page-transactions">
+        <div class="page-header">
+          <h2>Transactions & Payments</h2>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Transaction ID</th><th>Amount</th><th>Payment ID</th><th>Method</th><th>Status</th></tr>
+              </thead>
+              <tbody id="transactionsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Staff -->
+      <section class="page" id="page-staff">
+        <div class="page-header">
+          <h2>Staff</h2>
+          <button class="btn btn-primary" onclick="openStaffModal()">+ Add Staff</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>S.No</th><th>Name</th><th>Role</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="staffTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- User Modal -->
+  <div class="modal" id="userModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="userModalTitle">Add User</h3>
+        <button class="modal-close" onclick="closeModal('userModal')">×</button>
+      </div>
+      <form id="userForm" onsubmit="saveUser(event)">
+        <input type="hidden" id="userId" />
+        <div class="form-group"><label>Name</label><input type="text" id="userName" required /></div>
+        <div class="form-group"><label>Contact Info</label><input type="text" id="userContact" required /></div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('userModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Vehicle Modal -->
+  <div class="modal" id="vehicleModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Vehicle Entry</h3>
+        <button class="modal-close" onclick="closeModal('vehicleModal')">×</button>
+      </div>
+      <form id="vehicleForm" onsubmit="saveVehicle(event)">
+        <input type="hidden" id="vehicleId" />
+        <div class="form-group"><label>Vehicle Number</label><input type="text" id="vehicleNumber" required /></div>
+        <div class="form-group"><label>Model</label><input type="text" id="vehicleModel" required /></div>
+        <div class="form-group">
+          <label>Type</label>
+          <select id="vehicleType" required>
+            <option value="Car">Car</option>
+            <option value="Bike">Bike</option>
+            <option value="SUV">SUV</option>
+            <option value="Truck">Truck</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('vehicleModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Staff Modal -->
+  <div class="modal" id="staffModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="staffModalTitle">Add Staff</h3>
+        <button class="modal-close" onclick="closeModal('staffModal')">×</button>
+      </div>
+      <form id="staffForm" onsubmit="saveStaff(event)">
+        <input type="hidden" id="staffId" />
+        <div class="form-group"><label>Name</label><input type="text" id="staffName" required /></div>
+        <div class="form-group">
+          <label>Role</label>
+          <select id="staffRole" required>
+            <option value="Manager">Manager</option>
+            <option value="Attendant">Attendant</option>
+            <option value="Security">Security</option>
+            <option value="Cashier">Cashier</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('staffModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
